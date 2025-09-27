@@ -2,12 +2,10 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pellicule Vintage - Convertisseur Négatif</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      margin: 0; padding: 0;
+      font-family: Arial, sans-serif; margin: 0; padding: 0;
       background: #f3f1e7; color: #222; text-align: center;
     }
     header {
@@ -22,40 +20,18 @@
     /* Bloc style caméra réutilisable */
     .film-frame {
       position: relative;
-      margin: 20px auto;
-      width: 100%;              /* prend toute la largeur dispo */
-      max-width: 700px;
-      min-height: 250px;        /* hauteur minimum */
+      margin: 30px auto;
+      width: 100%; max-width: 700px;
+      height: 350px;
       background: #f9f4e7;
       border: 14px solid #0097a7;
       border-radius: 8px;
-      box-sizing: border-box;   /* bordure comprise dans la largeur */
       box-shadow: 0 0 25px rgba(0,0,0,0.3);
       display: flex;
       justify-content: center;
       align-items: center;
       overflow: hidden;
     }
-
-    /* Bloc caméra plus grand */
-    #cameraBox {
-      min-height: 320px;
-    }
-
-    /* Ajustement mobile */
-    @media (max-width: 600px) {
-      .film-frame {
-        min-height: 200px;      /* réduit la hauteur sur mobile */
-      }
-      #cameraBox {
-        min-height: 250px;
-      }
-      .controls {
-        flex-direction: column; /* boutons empilés */
-        gap: 10px;
-      }
-    }
-
     .film-frame img {
       max-width: calc(100% - 120px);
       max-height: 100%;
@@ -71,7 +47,7 @@
     /* Colonnes pellicule */
     .film-side {
       position: absolute;
-      top: 0; bottom: 0;
+      top: 00px; bottom: 00px;
       width: 40px;
       background: #111;
       display: flex;
@@ -139,7 +115,6 @@
     .controls {
       margin: 20px;
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
       gap: 15px;
     }
@@ -182,7 +157,7 @@
   </section>
 
   <!-- Bloc 2 : Caméra -->
-  <div class="film-frame" id="cameraBox">
+  <div class="film-frame" id="cameraBox" style="height:400px;">
     <!-- Colonnes -->
     <div class="film-side left">
       <div></div><div></div><div></div><div></div><div></div>
