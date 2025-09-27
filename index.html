@@ -2,10 +2,12 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pellicule Vintage - Convertisseur Négatif</title>
   <style>
     body {
-      font-family: Arial, sans-serif; margin: 0; padding: 0;
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0;
       background: #f3f1e7; color: #222; text-align: center;
     }
     header {
@@ -21,8 +23,9 @@
     .film-frame {
       position: relative;
       margin: 30px auto;
-      width: 100%; max-width: 700px;
-      height: 350px;
+      width: 90%;              /* prend presque toute la largeur */
+      max-width: 700px;
+      height: 350px;           /* hauteur standard */
       background: #f9f4e7;
       border: 14px solid #0097a7;
       border-radius: 8px;
@@ -32,6 +35,22 @@
       align-items: center;
       overflow: hidden;
     }
+
+    /* bloc caméra plus grand */
+    #cameraBox {
+      height: 400px;
+    }
+
+    /* --- Ajustement mobile --- */
+    @media (max-width: 600px) {
+      .film-frame {
+        height: 250px;      /* réduit la hauteur pour éviter le zoom */
+      }
+      #cameraBox {
+        height: 300px;
+      }
+    }
+
     .film-frame img {
       max-width: calc(100% - 120px);
       max-height: 100%;
@@ -47,7 +66,7 @@
     /* Colonnes pellicule */
     .film-side {
       position: absolute;
-      top: 00px; bottom: 00px;
+      top: 0; bottom: 0;
       width: 40px;
       background: #111;
       display: flex;
@@ -115,6 +134,7 @@
     .controls {
       margin: 20px;
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
       gap: 15px;
     }
@@ -157,7 +177,7 @@
   </section>
 
   <!-- Bloc 2 : Caméra -->
-  <div class="film-frame" id="cameraBox" style="height:400px;">
+  <div class="film-frame" id="cameraBox">
     <!-- Colonnes -->
     <div class="film-side left">
       <div></div><div></div><div></div><div></div><div></div>
