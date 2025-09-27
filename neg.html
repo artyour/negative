@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Pellicule Vintage - Convertisseur Négatif</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif; margin: 0; padding: 0;
+      background: #f3f1e7; color: #222; text-align: center;
+    }
+    header {
+      padding: 20px;
+      background: #0097a7;
+      border-bottom: 4px solid #006064;
+      color: white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    header h1 { margin: 0; font-size: 2em; }
+
+    /* Bloc style caméra réutilisable */
+    .film-frame {
+      position: relative;
+      margin: 30px auto;
+      width: 80%; max-width: 700px;
+      height: 350px;
+      background: #f9f4e7;
+      border: 14px solid #0097a7;
+      border-radius: 8px;
+      box-shadow: 0 0 25px rgba(0,0,0,0.3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    .film-frame img {
+      max-width: calc(100% - 120px);
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 4px;
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      margin: auto;
+      transition: opacity 1s ease;
+      z-index: 1;
+    }
+
+    /* Colonnes pellicule */
+    .film-side {
+      position: absolute;
+      top: 00px; bottom: 00px;
+      width: 40px;
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      padding: 10px 0;
+      z-index: 0;
+    }
+    .film-side.left { left: 10px; }
+    .film-side.right { right: 10px; }
+    .film-side div {
+      width: 25px; height: 25px;
+      background: #f9f4e7;
+      border-radius: 3px;
+    }
+
+    /* Flash */
+    .flash {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: white;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 3;
+    }
+    .flash.active { animation: flashAnim 0.5s ease; }
+    @keyframes flashAnim {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    /* REC clignotant */
+    .rec-light {
+      position: absolute;
+      top: 10px; right: 20px;
+      width: 20px; height: 20px;
+      background: red; border-radius: 50%;
+      box-shadow: 0 0 10px red;
+      animation: blink 1s infinite;
+      z-index: 2;
+    }
+    @keyframes blink {
+      0%, 50%, 100% { opacity: 1; }
+      25%, 75% { opacity: 0.2; }
+    }
+
+    /* Overlays Avant / Après */
+    .overlay {
+      position: absolute;
+      top: 15px;
+      padding: 6px 12px;
+      font-weight: bold;
+      font-size: 1.5em;
+      background: rgba(0,0,0,0.6);
+      color: red;
+      border-radius: 4px;
+      transition: opacity 0.8s ease;
+      z-index: 2;
+    }
+    .avant { left: 40px; }
+    .apres { right: 40px; }
+
+    /* Boutons */
+    .controls {
+      margin: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+    button, label.upload-btn {
+      background: #0097a7; color: white; font-weight: bold;
+      border: none; border-radius: 6px;
+      padding: 12px 20px; font-size: 1rem;
+      cursor: pointer; transition: 0.3s;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    button:hover, label.upload-btn:hover {
+      background: #006064;
+    }
+    input[type="file"] { display: none; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Pellicule Vintage - Convertisseur Négatif</h1>
+  </header>
+
+  <!-- Bloc 1 : Intro avec avant/après -->
+  <section>
+    <h2>✨ Transformez vos photos en style Négatif Vintage</h2>
+    <div class="film-frame">
+      <!-- Colonnes -->
+      <div class="film-side left">
+        <div></div><div></div><div></div><div></div><div></div>
+      </div>
+      <div class="film-side right">
+        <div></div><div></div><div></div><div></div><div></div>
+      </div>
+      <!-- Images -->
+      <img id="imgOriginal" src="original.png" alt="Original" style="opacity:1;">
+      <img id="imgNegative" src="negative.png" alt="Négatif" style="opacity:0;">
+      <!-- Labels -->
+      <span id="labelAvant" class="overlay avant">Before</span>
+      <span id="labelApres" class="overlay apres" style="opacity:0;">After</span>
+    </div>
+  </section>
+
+  <!-- Bloc 2 : Caméra -->
+  <div class="film-frame" id="cameraBox" style="height:400px;">
+    <!-- Colonnes -->
+    <div class="film-side left">
+      <div></div><div></div><div></div><div></div><div></div>
+    </div>
+    <div class="film-side right">
+      <div></div><div></div><div></div><div></div><div></div>
+    </div>
+
+    <!-- REC -->
+    <div class="rec-light"></div>
+
+    <!-- Image -->
+    <img id="displayImg" style="display:none;">
+
+    <!-- Flash -->
+    <div class="flash" id="flash"></div>
+  </div>
+
+  <!-- Boutons -->
+  <div class="controls">
+    <label for="upload" class="upload-btn">📂 Importer</label>
+    <input type="file" id="upload" accept="image/*">
+    <button id="captureBtn" disabled>🎬 Négatif</button>
+    <button id="downloadBtn" style="display:none;">💾 Télécharger</button>
+  </div>
+
+  <!-- Son flash -->
+  <audio id="cameraSound" preload="auto">
+    <source src="https://www.soundjay.com/mechanical/camera-shutter-click-01.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // --- Intro auto avant/après ---
+    const imgOriginal = document.getElementById("imgOriginal");
+    const imgNegative = document.getElementById("imgNegative");
+    const labelAvant = document.getElementById("labelAvant");
+    const labelApres = document.getElementById("labelApres");
+
+    let showNegative = false;
+    setInterval(() => {
+      if (showNegative) {
+        imgOriginal.style.opacity = "1";
+        imgNegative.style.opacity = "0";
+        labelAvant.style.opacity = "1";
+        labelApres.style.opacity = "0";
+      } else {
+        imgOriginal.style.opacity = "0";
+        imgNegative.style.opacity = "1";
+        labelAvant.style.opacity = "0";
+        labelApres.style.opacity = "1";
+      }
+      showNegative = !showNegative;
+    }, 2000);
+
+    // --- Bloc caméra ---
+    const upload = document.getElementById('upload');
+    const displayImg = document.getElementById('displayImg');
+    const captureBtn = document.getElementById('captureBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const flash = document.getElementById('flash');
+    const cameraSound = document.getElementById('cameraSound');
+
+    let canvas = document.createElement('canvas');
+    let ctx = canvas.getContext('2d');
+    let currentSrc = null;
+
+    // Upload
+    upload.addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const img = new Image();
+      img.onload = () => {
+        displayImg.src = img.src;
+        displayImg.style.display = "block";
+        captureBtn.disabled = false;
+        currentSrc = img.src;
+      };
+      img.src = URL.createObjectURL(file);
+    });
+
+    // Capture négatif
+    captureBtn.addEventListener('click', () => {
+      if (!currentSrc) return;
+      const img = new Image();
+      img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+        let data = ctx.getImageData(0, 0, img.width, img.height);
+        for (let i = 0; i < data.data.length; i += 4) {
+          data.data[i] = 255 - data.data[i];
+          data.data[i+1] = 255 - data.data[i+1];
+          data.data[i+2] = 255 - data.data[i+2];
+        }
+        ctx.putImageData(data, 0, 0);
+        displayImg.src = canvas.toDataURL();
+        currentSrc = displayImg.src;
+        downloadBtn.style.display = "inline-flex";
+
+        // Flash + son
+        flash.classList.add("active");
+        cameraSound.currentTime = 0;
+        cameraSound.play();
+        setTimeout(() => flash.classList.remove("active"), 500);
+      };
+      img.src = currentSrc;
+    });
+
+    // Download
+    downloadBtn.addEventListener('click', () => {
+      const link = document.createElement('a');
+      link.download = 'negative.png';
+      link.href = currentSrc;
+      link.click();
+    });
+  </script>
+</body>
+</html>
