@@ -22,13 +22,14 @@
     /* Bloc style caméra réutilisable */
     .film-frame {
       position: relative;
-      margin: 30px auto;
-      width: 90%;              /* prend presque toute la largeur */
+      margin: 20px auto;
+      width: 100%;              /* prend toute la largeur dispo */
       max-width: 700px;
-      height: 350px;           /* hauteur standard */
+      min-height: 250px;        /* hauteur minimum */
       background: #f9f4e7;
       border: 14px solid #0097a7;
       border-radius: 8px;
+      box-sizing: border-box;   /* bordure comprise dans la largeur */
       box-shadow: 0 0 25px rgba(0,0,0,0.3);
       display: flex;
       justify-content: center;
@@ -36,18 +37,22 @@
       overflow: hidden;
     }
 
-    /* bloc caméra plus grand */
+    /* Bloc caméra plus grand */
     #cameraBox {
-      height: 400px;
+      min-height: 320px;
     }
 
-    /* --- Ajustement mobile --- */
+    /* Ajustement mobile */
     @media (max-width: 600px) {
       .film-frame {
-        height: 250px;      /* réduit la hauteur pour éviter le zoom */
+        min-height: 200px;      /* réduit la hauteur sur mobile */
       }
       #cameraBox {
-        height: 300px;
+        min-height: 250px;
+      }
+      .controls {
+        flex-direction: column; /* boutons empilés */
+        gap: 10px;
       }
     }
 
