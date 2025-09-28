@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>Pellicule Vintage - Convertisseur Négatif</title>
+  <title>Free Vintage Film – Negative Photo Converter</title>
   <style>
     body {
       font-family: Arial, sans-serif; margin: 0; padding: 0;
@@ -99,13 +99,13 @@
     .overlay {
       position: absolute;
       top: 15px;
-      padding: 6px 12px;
+      padding: 6px 10px;
       font-weight: bold;
-      font-size: 1.5em;
+      font-size: 2em;
       background: rgba(0,0,0,0.6);
       color: red;
       border-radius: 4px;
-      transition: opacity 0.8s ease;
+      transition: opacity 1s ease;
       z-index: 2;
     }
     .avant { left: 40px; }
@@ -121,7 +121,7 @@
     button, label.upload-btn {
       background: #0097a7; color: white; font-weight: bold;
       border: none; border-radius: 10px;
-      padding: 16px 28px; font-size: 1.4rem;
+      padding: 18px 30px; font-size: 1.3rem;
       cursor: pointer; transition: 0.3s;
       display: inline-flex; align-items: center; gap: 8px;
     }
@@ -133,12 +133,12 @@
 </head>
 <body>
   <header>
-    <h1>Pellicule Vintage - Convertisseur Négatif</h1>
+    <h1>Free Vintage Film – Negative Photo Converter</h1>
   </header>
 
   <!-- Bloc 1 : Intro avec avant/après -->
   <section>
-    <h2>✨ Transformez vos photos en style Négatif Vintage</h2>
+    <h2>✨ Transform Your Photo Into a Beautiful VIRAL Vintage Negative – 100% FREE ✨</h2>
     <div class="film-frame">
       <!-- Colonnes -->
       <div class="film-side left">
@@ -151,8 +151,8 @@
       <img id="imgOriginal" src="original.png" alt="Original" style="opacity:1;">
       <img id="imgNegative" src="negative.png" alt="Négatif" style="opacity:0;">
       <!-- Labels -->
-      <span id="labelAvant" class="overlay avant">Before</span>
-      <span id="labelApres" class="overlay apres" style="opacity:0;">After</span>
+      <span id="labelAvant" class="overlay avant">Original</span>
+      <span id="labelApres" class="overlay apres" style="opacity:0;">Negative</span>
     </div>
   </section>
 
@@ -178,10 +178,10 @@
 
   <!-- Boutons -->
   <div class="controls">
-    <label for="upload" class="upload-btn">📂 Importer</label>
+    <label for="upload" class="upload-btn">📂 Upload Your Photo</label>
     <input type="file" id="upload" accept="image/*">
-    <button id="captureBtn" disabled>🎬 Négatif</button>
-    <button id="downloadBtn" style="display:none;">💾 Télécharger</button>
+    <button id="captureBtn" disabled>🎬 Convert to Negative</button>
+    <button id="downloadBtn" style="display:none;">💾 Download FREE</button>
   </div>
 
   <!-- Son flash -->
